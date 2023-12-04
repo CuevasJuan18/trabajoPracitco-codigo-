@@ -25,7 +25,6 @@ public class Alumno extends Persona {
         this.accesoDescuento = false;
     }
 
-
     //Getter y Setter
 
     public String getLegajo() {
@@ -109,9 +108,20 @@ public class Alumno extends Persona {
     }
 
     //PatronFactory
-    public class AlumnoFactory {
+    // Método estático para crear instancias de Alumno utilizando la fábrica
+    public static Alumno createAlumno(AlumnoFactory factory, String nombre, String apellido, String dni, int year, int month, int day, int edad) {
+        return factory.createAlumno(nombre, apellido, dni, year, month, day, edad);
+    }
 
-        public static Alumno createAlumno(String nombre, String apellido, String dni, int year, int month, int day, int edad) {
+    // Interfaz de la fábrica
+    public interface AlumnoFactory {
+        Alumno createAlumno(String nombre, String apellido, String dni, int year, int month, int day, int edad);
+    }
+
+    // Implementación concreta de la fábrica
+    public static class ConcreteAlumnoFactory implements AlumnoFactory {
+        @Override
+        public Alumno createAlumno(String nombre, String apellido, String dni, int year, int month, int day, int edad) {
             return new Alumno.Builder(nombre, apellido, dni)
                     .fechaNacimiento(crearFecha(year, month, day))
                     .edad(edad)
@@ -119,10 +129,11 @@ public class Alumno extends Persona {
         }
 
         private static Date crearFecha(int year, int month, int day) {
-            Calendar calendar = new GregorianCalendar(year, month, day);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
             return calendar.getTime();
         }
-
     }
 }
+
 

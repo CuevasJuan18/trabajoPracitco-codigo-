@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static <AlumnoFactory> void main(String[] args) {
         System.out.println("Hello world!");
 
         //////////////////////////Alumnos//////////////////////////
@@ -31,15 +31,19 @@ public class Main {
                 crearFecha(1985, Calendar.FEBRUARY, 14), 32);
         Alumno Juan = new Alumno("Juan", "cuevas", "44237587",
                 crearFecha(2003, Calendar.FEBRUARY, 14), 20);
-        Alumno Enzo = new Alumno("Enzo", "Toro", "39228987",
-                crearFecha(1996, Calendar.DECEMBER, 18), 26);
-        //llenarArray con patron factory
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Lucas", "Krapp", "41425897", 1980, Calendar.NOVEMBER, 19, 20));
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Lucia", "López", "12345678", 1995, Calendar.JANUARY, 5, 27));
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Tomas", "Gómez", "98765432", 1992, Calendar.AUGUST, 20, 30));
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Sofia", "Pérez", "87654321", 1996, Calendar.DECEMBER, 12, 24));
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Pablo", "Martínez", "56789012", 1985, Calendar.FEBRUARY, 14, 32));
-        listaAlumnos.add(Alumno.AlumnoFactory.createAlumno("Juan", "cuevas", "44237587", 2003, Calendar.FEBRUARY, 14, 20));
+        //PatronFactory
+        // Crear una instancia de la fábrica
+        Alumno.AlumnoFactory factory = new Alumno.ConcreteAlumnoFactory();
+        // Crear un alumno utilizando la fábrica
+        Alumno enzo = Alumno.createAlumno(factory, "Enzo", "Toro", "39228987",
+                1996, Calendar.DECEMBER, 18, 26);
+        //llenarArray
+        listaAlumnos.add(Lucas);
+        listaAlumnos.add(Lucia);
+        listaAlumnos.add(Tomas);
+        listaAlumnos.add(Sofia);
+        listaAlumnos.add(Pablo);
+        listaAlumnos.add(Juan);
         //CrearLegajo
         Lucas.generarLegajo(Lucas.getDni());
         Lucia.generarLegajo(Lucia.getDni());
@@ -170,6 +174,7 @@ public class Main {
         System.out.println(" ");
 
         // Llamar al método para listar cumpleaños cercanos
+        //Cambiar despues las fechas de cumpleaños para mostrar en pantalla
         // julio fecha 1980, (20 de noviembre) Lucas (19 de noviembre)
         Date fechaActual = new Date();
         Persona.listarCumpleanosCercanos(personas, fechaActual);
